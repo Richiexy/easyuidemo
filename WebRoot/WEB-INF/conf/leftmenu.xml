@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<leftMenus>
+	<leftMenu>
+		<id>m1</id>
+		<h1a>系统管理</h1a>
+		<lia href="sysController/admin/schoolMgr">学校设置</lia>
+	    <lia href="sysController/admin/userMgr">用户管理</lia>
+	    <lia href="sysController/admin/privMgr">权限管理</lia>
+	    <lia href="sysController/admin/roleMgr">角色管理</lia>
+	</leftMenu>
+	
+	<leftMenu>
+		<id>m2</id>
+		<h1a>教师管理</h1a>
+		<lia href="sysController/tc/tcMgr">教师管理</lia>
+		<lia href="sysController/user/schoolTimeTable?pagetype=T">课程表</lia>
+	</leftMenu> 
+	
+	<leftMenu>
+		<id>m3</id>
+		<h1a>学生管理</h1a>
+		<lia href="sysController/st/stMgr">学生管理</lia>
+		<lia href="sysController/user/schoolTimeTable?pagetype=S">课程表</lia>
+	</leftMenu> 
+	
+	<leftMenu>
+		<id>m4</id>
+		<h1a>其它参数管理</h1a>
+		<lia href="">管理设置</lia>
+		<lia href="">主机状态</lia>
+		<lia href="">攻击状态</lia>
+		<lia href="">登陆记录</lia>
+		<lia href="">运行状态</lia>
+	</leftMenu>
+</leftMenus>

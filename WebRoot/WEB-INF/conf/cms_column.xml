@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<columns>
+	<column>
+		<id>c1</id>
+		<name>首页</name>
+	</column>
+	<column>
+		<id>c2</id>
+		<name>新闻中心</name>
+	</column>
+	<column>
+		<id>c3</id>
+		<name>信息公开</name>
+	</column>
+	<column>
+		<id>c4</id>
+		<name>政策法规</name>
+	</column>
+	<column>
+		<id>c5</id>
+		<name>阳关政务</name>
+	</column>
+	<column>
+		<id>c6</id>
+		<name>办事大厅</name>
+	</column>
+	<column>
+		<id>c7</id>
+		<name>交流互动</name>
+	</column>
+	<column>
+		<id>c8</id>
+		<name>12333专栏</name>
+	</column>
+	<column>
+		<id>c9</id>
+		<name>网站导航</name>
+	</column>
+</columns>
