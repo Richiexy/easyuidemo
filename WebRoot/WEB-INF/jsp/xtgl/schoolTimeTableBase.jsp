@@ -1,6 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
-<%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
-<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sql" uri="http://java.sun.com/jsp/jstl/sql" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
@@ -19,194 +19,105 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		var basePath = '<%=basePath%>';
 		var path='${pageContext.request.contextPath}';
 		
-		function searchGridByParam(){
-			jQuery("#dg_003").datagrid('load',{
-				'privid' : jQuery("input[name='privid']").val(),
-				'privname' : jQuery("input[name='privname']").val()
-			})
-			
-		}
-		//定义表格
 		jQuery(document).ready(function(){
 			
-			var screenWidth = jQuery("#layoutDivId").width();
-			var screenHeight = jQuery("#layoutDivId").height();
-			
-			//定义方法
-			//新增
-			function addPriv(){
-
-				jQuery("#priv_win").form('load' ,{
-			    	recStat: "1"//默认值
-			    })
-			    
-				jQuery("#priv_win").window({
-					title: "新增权限",
-					collapsible:false,
-					minimizable:false,
-				    maximizable:false,
-				    modal:true,
-				    width:screenWidth * 2/7,
-					height:screenHeight * 3/7
-				});
-			}
-			//修改
-			function editPriv(){
-				var row = jQuery("#dg_003").datagrid('getSelected');
-				if (row){
-					
-				    jQuery("#priv_win").form('load' ,{
-				    	privid: row.privid,
-				    	privname: row.privname,
-				    	recStat: "1",//默认值
-				    	KId: row.kid
-				    })
-				    
-				    jQuery("#priv_win").window({
-						title: "修改权限",
-						collapsible:false,
-						minimizable:false,
-					    maximizable:false,
-					    modal:true,
-					    width:screenWidth * 2/7,
-						height:screenHeight * 3/7
-					});
-				    
-				}else{
-					jQuery.messager.alert("提示!","请选择记录后操作！");
-					return;
-				}
-				
-			}
-			//批量删除
-			function delPriv(gridId , formAction){
-				var rows = jQuery("#" + gridId).datagrid('getSelections');
-				if (rows.length > 0){
-					var ids=[];
-					for(var i=0; i<rows.length; i++){
-					    ids.push(rows[i].kid);
-					}
-					jQuery.ajax({
-						url: basePath + formAction + "/batchDel"+'?rondom='+ getRandom(),
-						method: "post",
-						data: {
-							"keyIds":ids.join(",")
-						},
-						success:function(data) {
-							jQuery("#" + gridId).datagrid('reload');
-							jQuery.messager.alert("提示!" ,"删除成功！");
-						}
-					})
-				}else{
-					jQuery.messager.alert("提示!","请选择记录后操作！");
-					return;
-				}
-			}
-			
-			jQuery("#dg_003").datagrid({
-				url: basePath + 'privController/getPrivList',
-				loadMsg: "正在加载数据，请稍等……",
-	            pagination:true,  
-	            rownumbers:true,  
-	            fit:true,  
-	            width:'100%',    
-	            height:'85%',    
-	            nowrap: false,  
-	            border: false,  
-	            pageSize:10,  
-	            //singleSelect:true,//单选
-	            toolbar:[{
-	            	text:'新增',
-	        		iconCls: 'icon-add',
-	        		handler: function(){
-	        			addPriv();
-	        		}
-	        	},'-',{
-	        		text:'修改',
-	        		iconCls: 'icon-edit',
-	        		handler: function(){
-	        			editPriv();
-	        		}
-	        	},'-',{
-	        		text:'删除',
-	        		iconCls: 'icon-remove',
-	        		handler: function(){
-	        			delPriv("dg_003" , "privController");
-	        		}
-	        	}]
+			jQuery('.left .item').draggable({
+				revert:true,
+				proxy:'clone'
 			});
-		})
+			
+			jQuery('.right td.drop').droppable({
+				onDragEnter:function(){
+					jQuery(this).addClass('over');
+				},
+				onDragLeave:function(){
+					jQuery(this).removeClass('over');
+				},
+				onDrop:function(e,source){
+					jQuery(this).removeClass('over');
+					if (jQuery(source).hasClass('assigned')){
+						jQuery(this).append(source);
+					} else {
+						var c = jQuery(source).clone().addClass('assigned');
+						jQuery(this).empty().append(c);
+						c.draggable({
+							revert:true
+						});
+					}
+				}
+			});
+		});
+		
 	</script>
-
+	<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/schooltimetable.css">
+	
   </head>
   
   <body>
-  
-    <div id="layoutDivId" class="easyui-layout" style="width:100%;height:100%;padding:10px;"   >
-    	<%-- 查询条件区域 --%>
-    	<div data-options="region:'north',title:'查询条件',split:true" style="height:18%;">
-    	 	<form id="privSearchForm"> 
-    			<table> 
-			    	<tr>
-			    		<td>权限编号：</td>
-			    		<td><input class="easyui-validatebox" type="text" name="privid" data-options="required:false"></input></td>
-			    		<td>权限名称：</td>
-			    		<td><input class="easyui-validatebox" type="text" name="privname" data-options="required:false"></input></td>
-			    		<td>
-			    			<a href="javascript:void(0)" class="easyui-linkbutton" 
-			    				data-options="iconCls:'icon-search'"
-			    				onclick="javascript:searchGridByParam()" >查询</a>
-			    		</td>
-			    		<td>
-			    			<a href="javascript:void(0)" class="easyui-linkbutton" 
-			    				data-options="iconCls:'icon-reset'"
-			    				onclick="javascript:resetForm('privSearchForm')" >重置</a>
-			    		</td>
-			    	</tr>
-				</table> 
-			</form> 
-    	</div>   
-    	<%-- 列表区域 --%>
-		<div data-options="region:'center',title:'查询列表'" style="padding:5px;background:#eee;">
-			<table id="dg_003" >   
-			    <thead>   
-			        <tr>   
-			        	<%-- 复选框 --%>
-			            <th data-options="field:'ck',checkbox:true"> </th>   
-			            <th data-options="field:'privid'">权限编号</th>   
-			            <th data-options="field:'privname'">权限名称</th>   
-			            <th data-options="field:'kid',hidden:true">主键</th>   
-			        </tr>   
-			    </thead>   
-			</table>  
-			
-		</div>   
-		<%-- 列表结束 --%>
+  <div id="layoutDivId">
+	   <div class="left">
+	   		<table>
+				<tr>
+					<td><div class="item">语文</div></td>
+				</tr>
+				<tr>
+					<td><div class="item">英语</div></td>
+				</tr>
+				<tr>
+					<td><div class="item">数学</div></td>
+				</tr>
+				<tr>
+					<td><div class="item">物理</div></td>
+				</tr>
+				<tr>
+					<td><div class="item">化学</div></td>
+				</tr>
+				<tr>
+					<td><div class="item">生物</div></td>
+				</tr>
+				<tr>
+					<td><div class="item">地理</div></td>
+				</tr>
+				<tr>
+					<td><div class="item">历史</div></td>
+				</tr>
+				<tr>
+					<td><div class="item">音乐</div></td>
+				</tr>
+				<tr>
+					<td><div class="item">美术</div></td>
+				</tr>
+				<tr>
+					<td><div class="item">体育</div></td>
+				</tr>
+			</table>
+	   </div>
+	   
+	   <div class="right">
+			<table>
+				<tr>
+					<td class="blank"></td>
+					<td class="title">星期日</td>
+					<td class="title">星期一</td>
+					<td class="title">星期二</td>
+					<td class="title">星期三</td>
+					<td class="title">星期四</td>
+					<td class="title">星期五</td>
+					<td class="title">星期六</td>
+				</tr>
+				<tr>
+					<td class="time">08:00</td>
+					<td class="drop"></td>
+					<td class="drop"></td>
+					<td class="drop"></td>
+					<td class="drop"></td>
+					<td class="drop"></td>
+					<td class="drop"></td>
+					<td class="drop"></td>
+				</tr>
+				<!-- other cells -->
+			</table>
+		</div>
     </div>
-    
-    <div id="priv_win" >
-    
-    	 <form id="privForm" method="post"> 
-    	 	<input type="hidden" name="KId" />
-    	 	<input type="hidden" name="recStat"/>
-		     	<table> 		  
-		     		<tr>
-		    			 <td nowrap>权限编号：</td>
-		  			     <td><input class="easyui-validatebox" type="text" name="privid" data-options="required:false"></input></td>
-		  			</tr>
-		  			<tr>
-		    			 <td nowrap>权限名称：</td>
-		  			     <td><input class="easyui-validatebox" type="text" name="privname" data-options="required:false"></input></td>
-		  			</tr>
-		       </table>                                                                                                                                                
-		  </form>                                                                                                                                                   
-
-	 	<div style="text-align:center;padding:5px"> 
-	    	<a href="javascript:void(0)" class="easyui-linkbutton" onclick="submitFormData('priv_win','dg_003','privForm','privController/savePriv')">提 交</a> 
-	    	<a href="javascript:void(0)" class="easyui-linkbutton" onclick="resetForm('privForm')">重 置</a> 
-	    </div> 	
-      
-    </div>
-    
   </body>
 </html>
