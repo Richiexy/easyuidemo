@@ -20,7 +20,7 @@
 	</context-param>
 	<context-param>
        <param-name>webAppRootKey</param-name>
-       <param-value>webapp.root</param-value><!-- 指定路径webapp.root -->
+       <param-value>webapp.root</param-value><!-- 指定路径webapp.root在logback.xml中使用 -->
     </context-param>
     <listener>
 	    <listener-class>org.springframework.web.util.WebAppRootListener</listener-class>

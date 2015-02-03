@@ -21,8 +21,9 @@ public class TSchool implements java.io.Serializable {
 	// Fields
 	@Id
 	@Column(name="K_ID")
-	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="gen")
-	@SequenceGenerator(name="gen",sequenceName="SEQ_ALLTABLE")
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+//	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="gen")
+//	@SequenceGenerator(name="gen",sequenceName="SEQ_ALLTABLE")
 	private Integer KId;//主键
 	
 	@Column(name="SC_CODE" , length=20)

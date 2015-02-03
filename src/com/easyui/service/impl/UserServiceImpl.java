@@ -1,5 +1,6 @@
 package com.easyui.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -7,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.easyui.model.SUser;
+import com.easyui.model.TCourse;
 import com.easyui.service.BaseService;
 import com.easyui.service.IUserService;
 import com.easyui.util.BeanUtil;
@@ -23,8 +25,11 @@ public class UserServiceImpl extends BaseService implements IUserService  {
 		return user;
 	}
 
-	public List<SUser> getUserList(Map<String, String> paraMap, SUser user) {
+	public Map<String, Object> getUserList(Map<String, String> paraMap, SUser user) {
 		
+		 //定义map
+		 Map<String, Object> jsonMap = new HashMap<String, Object>();
+		 
 		 String userid = paraMap.containsKey("userid") ? paraMap.get("userid") : "";
 		 String username = paraMap.containsKey("username") ? paraMap.get("username") : "";
 		 String hql = " from SUser where recStat = '1' " ;
@@ -34,8 +39,12 @@ public class UserServiceImpl extends BaseService implements IUserService  {
 		 if(StringUtil.isNoNull(username)){
 			 hql += " and username like '" + username + "%'";
 		 }
-		List<SUser> userList = hqlOperate.getByHql(hql, SUser.class);
-		return userList;
+		List<SUser> userList = hqlOperate.getPagedByHql(hql, SUser.class ,
+				(Integer.parseInt(paraMap.get("page")) -1)*Integer.parseInt(paraMap.get("rows")) , 
+				Integer.parseInt(paraMap.get("rows")));
+		jsonMap.put("total", hqlOperate.getByHql(hql).size());
+		jsonMap.put("rows", userList);
+		return jsonMap;
 	}
 
 	public boolean batchDel(String keyIds) {

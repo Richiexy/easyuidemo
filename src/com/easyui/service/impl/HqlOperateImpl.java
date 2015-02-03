@@ -295,6 +295,21 @@ public class HqlOperateImpl extends BaseService implements HqlOperate {
 		});
 		return l;
 	}
+	
+	public <T> List<T> getPagedByHql(final String hql, Class<T> clazz ,final int start,final int top){		
+		List retList = (ArrayList)hibernateTemplate.execute(new HibernateCallback(){
+			public Object doInHibernate(Session session)
+					throws HibernateException, SQLException {
+				Query query = session.createQuery(hql);
+				query.setFirstResult(start);
+				query.setMaxResults(top);
+				List _data = query.list();
+				return _data;
+			}			
+		});
+		return retList;
+	}
+	
 	public void mergeList(List objs){
 		for(Object obj : objs){
 			hibernateTemplate.merge(obj);

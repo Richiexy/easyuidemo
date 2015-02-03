@@ -22,8 +22,9 @@ public class SUser implements java.io.Serializable {
 
 	@Id
 	@Column(name="K_ID")
-	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="gen")
-	@SequenceGenerator(name="gen",sequenceName="SEQ_ALLTABLE")
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+//	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="gen")
+//	@SequenceGenerator(name="gen",sequenceName="SEQ_ALLTABLE")
 	private Integer KId;//主键
 	
 	@Column(name="USERID" , length=10)

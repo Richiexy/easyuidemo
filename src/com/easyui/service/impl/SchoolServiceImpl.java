@@ -1,5 +1,6 @@
 package com.easyui.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -7,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.easyui.model.SUser;
+import com.easyui.model.TCourse;
 import com.easyui.model.TSchool;
 import com.easyui.service.BaseService;
 import com.easyui.service.ISchoolService;
@@ -64,8 +66,12 @@ public class SchoolServiceImpl extends BaseService implements ISchoolService  {
 		
 	}
 
-	public List<TSchool> getSchoolList(Map<String, String> paraMap, SUser user) {
-		String scCode = paraMap.containsKey("scCode") ? paraMap.get("scCode") : "";
+	public Map<String, Object> getSchoolList(Map<String, String> paraMap, SUser user) {
+		
+		//定义map
+		 Map<String, Object> jsonMap = new HashMap<String, Object>();
+		 
+		 String scCode = paraMap.containsKey("scCode") ? paraMap.get("scCode") : "";
 		 String scName = paraMap.containsKey("scName") ? paraMap.get("scName") : "";
 		 String hql = " from TSchool where recStat = '1' " ;
 		 if(StringUtil.isNoNull(scCode)){
@@ -74,8 +80,12 @@ public class SchoolServiceImpl extends BaseService implements ISchoolService  {
 		 if(StringUtil.isNoNull(scName)){
 			 hql += " and scName like '" + scName + "%'";
 		 }
-		List<TSchool> schoolList = hqlOperate.getByHql(hql, TSchool.class);
-		return schoolList;
+		List<TSchool> schoolList = hqlOperate.getPagedByHql(hql, TSchool.class ,
+				(Integer.parseInt(paraMap.get("page")) -1)*Integer.parseInt(paraMap.get("rows")) , 
+				Integer.parseInt(paraMap.get("rows")));
+		jsonMap.put("total", hqlOperate.getByHql(hql).size());
+		jsonMap.put("rows", schoolList);
+		return jsonMap;
 	}
 
 }

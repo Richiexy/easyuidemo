@@ -1,5 +1,6 @@
 package com.easyui.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -8,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.easyui.model.SPriv;
 import com.easyui.model.SUser;
+import com.easyui.model.TCourse;
 import com.easyui.service.BaseService;
 import com.easyui.service.IPrivService;
 import com.easyui.util.BeanUtil;
@@ -19,8 +21,11 @@ import com.easyui.util.StringUtil;
 public class PrivServiceImpl extends BaseService implements IPrivService  {
 
 	
-	public List<SPriv> getPrivList(Map<String, String> paraMap, SUser user) {
+	public Map<String, Object> getPrivList(Map<String, String> paraMap, SUser user) {
 		
+		 //定义map
+		 Map<String, Object> jsonMap = new HashMap<String, Object>();
+		 
 		 String privid = paraMap.containsKey("privid") ? paraMap.get("privid") : "";
 		 String privname = paraMap.containsKey("privname") ? paraMap.get("privname") : "";
 		 String hql = " from SPriv where recStat = '1' " ;
@@ -30,8 +35,12 @@ public class PrivServiceImpl extends BaseService implements IPrivService  {
 		 if(StringUtil.isNoNull(privname)){
 			 hql += " and privname like '" + privname + "%'";
 		 }
-		List<SPriv> privList = hqlOperate.getByHql(hql, SPriv.class);
-		return privList;
+		List<SPriv> privList = hqlOperate.getPagedByHql(hql, SPriv.class ,
+				(Integer.parseInt(paraMap.get("page")) -1)*Integer.parseInt(paraMap.get("rows")) , 
+				Integer.parseInt(paraMap.get("rows")));
+		jsonMap.put("total", hqlOperate.getByHql(hql).size());
+		jsonMap.put("rows", privList);
+		return jsonMap;
 	}
 
 	public void editPriv(SPriv sPriv, SUser user) {

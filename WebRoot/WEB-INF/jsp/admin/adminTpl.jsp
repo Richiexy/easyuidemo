@@ -12,7 +12,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     
 </head>
   
-  <body>
+<body>
+  
   <div class="easyui-layout" 
   	style="width: auto;height: 100%; margin: 0 auto;">
   	

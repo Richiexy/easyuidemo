@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
-import com.easyui.model.SPriv;
 import com.easyui.model.SRole;
 import com.easyui.model.SUser;
 import com.easyui.service.IRoleService;
@@ -51,12 +50,8 @@ public class RoleController {
 	public String getPrivList(@RequestParam Map<String , String > paraMap,
 			@ModelAttribute("user") SUser user ,
 			ModelMap modelMap ){
-		 Map<String, Object> jsonMap = new HashMap<String, Object>();//定义map
-		 
-		List<SRole> privList = roleService.getRoleList(paraMap , user);
+		 Map<String, Object> jsonMap = roleService.getRoleList(paraMap , user);
 		
-		jsonMap.put("total", privList.size());
-		jsonMap.put("rows", privList);
 		log.info("获取角色列表……");
 		return JacksonUtil.serializeObjectToJson(jsonMap, true);
 	}

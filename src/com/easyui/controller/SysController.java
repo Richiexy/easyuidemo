@@ -97,6 +97,19 @@ public class SysController {
 	}
 	
 	/**
+	 * @Description: 课程管理
+	 * @author: 俞根海
+	 * @date: 2015-2-3 下午2:49:42
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping("/admin/courseMgr")
+	public String courseMgr(ModelMap model){
+		
+		return "xtgl/courseMgr";
+	}
+	
+	/**
 	 * @Description: 教师管理
 	 * @author: 俞根海
 	 * @date: 2015-2-2 下午6:20:32

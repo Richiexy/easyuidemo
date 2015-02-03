@@ -860,7 +860,7 @@ public class DateUtil {
 	
 	public static void main(String[] args) {
 		
-		String createTime = DateUtil.getCurrentDate();
+		String createTime = DateUtil.getCurrentDate("yyyy-MM-dd HH:mm:ss");
 //		int dataDiff = 0;
 //		try {
 //			dataDiff = DateUtil.dataDiff(DateUtil.convertStringToDate("yyyy-MM-dd","2014-01-02"),

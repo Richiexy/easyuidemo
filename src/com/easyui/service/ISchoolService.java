@@ -65,5 +65,5 @@ public interface ISchoolService {
 	 * @param user
 	 * @return
 	 */
-	public List<TSchool> getSchoolList(Map<String, String> paraMap, SUser user);
+	public Map<String, Object> getSchoolList(Map<String, String> paraMap, SUser user);
 }

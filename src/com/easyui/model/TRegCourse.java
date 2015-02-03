@@ -4,7 +4,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import org.codehaus.jackson.annotate.JsonAutoDetect;
@@ -21,8 +20,9 @@ public class TRegCourse implements java.io.Serializable {
 	// Fields
 	@Id
 	@Column(name="K_ID")
-	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="gen")
-	@SequenceGenerator(name="gen",sequenceName="SEQ_ALLTABLE")
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+//	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="gen")
+//	@SequenceGenerator(name="gen",sequenceName="SEQ_ALLTABLE")
 	private Integer KId;//主键
 	
 	@Column(name="ST_CODE" , length=20)

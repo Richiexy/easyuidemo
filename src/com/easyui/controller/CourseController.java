@@ -1,7 +1,5 @@
 package com.easyui.controller;
 
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -15,26 +13,26 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
-import com.easyui.model.SPriv;
 import com.easyui.model.SUser;
-import com.easyui.service.IPrivService;
+import com.easyui.model.TCourse;
+import com.easyui.service.ICourseService;
 import com.easyui.util.JacksonUtil;
 import com.easyui.util.StringUtil;
 
 /**
- * @Description: 权限管理
+ * @Description: 课程管理
  * @author: 俞根海
  * @date： 2015-1-28 下午2:04:39
  */
 @Controller
-@RequestMapping("/privController")
+@RequestMapping("/courseController")
 @SessionAttributes("user")
-public class PrivController {
+public class CourseController {
 	
-	private Logger log = LoggerFactory.getLogger(PrivController.class);
+	private Logger log = LoggerFactory.getLogger(CourseController.class);
 
 	@Autowired(required = false)
-	private IPrivService privService;
+	private ICourseService courseService;
 	
 	/**
 	 * @Description: 获取学校列表
@@ -45,15 +43,15 @@ public class PrivController {
 	 * @param modelMap
 	 * @return
 	 */
-	@RequestMapping("/getPrivList")
+	@RequestMapping("/getCourseList")
 	@ResponseBody
-	public String getPrivList(@RequestParam Map<String , String > paraMap,
+	public String getCourseList(@RequestParam Map<String , String > paraMap,
 			@ModelAttribute("user") SUser user ,
 			ModelMap modelMap ){
+		 
+		 Map<String, Object> jsonMap = courseService.getCourseList(paraMap , user);
 		
-		 Map<String, Object> jsonMap = privService.getPrivList(paraMap , user);
-		
-		log.info("获取权限列表……");
+		log.info("获取课程列表……");
 		return JacksonUtil.serializeObjectToJson(jsonMap, true);
 	}
 	
@@ -65,16 +63,16 @@ public class PrivController {
 	 * @param user
 	 * @return
 	 */
-	@RequestMapping("/savePriv")
-	public SPriv savePriv(SPriv sPriv ,
+	@RequestMapping("/saveCourse")
+	public TCourse saveCourse(TCourse tCourse ,
 			@ModelAttribute("user") SUser user){
-		if(StringUtil.isNoNull(sPriv.getKId())){
-			privService.editPriv(sPriv , user);
+		if(StringUtil.isNoNull(tCourse.getKId())){
+			courseService.editCourse(tCourse , user);
 		}else{
-			privService.addPriv(sPriv , user);
+			courseService.addCourse(tCourse , user);
 		}
 		
-		return sPriv;
+		return tCourse;
 	}
 	
 	/**
@@ -90,6 +88,6 @@ public class PrivController {
 	public boolean batchDel(String keyIds,
 			@ModelAttribute("user") SUser user){
 			
-		return privService.batchDel(keyIds);
+		return courseService.batchDel(keyIds);
 	}
 }

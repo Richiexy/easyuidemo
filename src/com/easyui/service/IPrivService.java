@@ -21,7 +21,7 @@ public interface IPrivService {
 	 * @param user
 	 * @return
 	 */
-	List<SPriv> getPrivList(Map<String, String> paraMap, SUser user);
+	Map<String, Object> getPrivList(Map<String, String> paraMap, SUser user);
 
 	/**
 	 * @Description: 修改

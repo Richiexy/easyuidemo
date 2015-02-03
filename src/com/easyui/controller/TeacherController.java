@@ -51,12 +51,9 @@ public class TeacherController {
 	public String getTeacherList(@RequestParam Map<String , String > paraMap,
 			@ModelAttribute("user") SUser user ,
 			ModelMap modelMap ){
-		 Map<String, Object> jsonMap = new HashMap<String, Object>();//定义map
-		 
-		List<TTeacher> userList = teacherService.getTeacherList(paraMap , user);
 		
-		jsonMap.put("total", userList.size());
-		jsonMap.put("rows", userList);
+		 Map<String, Object> jsonMap = teacherService.getTeacherList(paraMap , user);
+		
 		log.info("获取用户列表……");
 		return JacksonUtil.serializeObjectToJson(jsonMap, true);
 	}

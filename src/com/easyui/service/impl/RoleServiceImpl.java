@@ -1,5 +1,6 @@
 package com.easyui.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -9,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.easyui.model.SPriv;
 import com.easyui.model.SRole;
 import com.easyui.model.SUser;
+import com.easyui.model.TCourse;
 import com.easyui.service.BaseService;
 import com.easyui.service.IRoleService;
 import com.easyui.util.BeanUtil;
@@ -20,8 +22,11 @@ import com.easyui.util.StringUtil;
 public class RoleServiceImpl extends BaseService implements IRoleService  {
 
 	
-	public List<SRole> getRoleList(Map<String, String> paraMap, SUser user) {
+	public Map<String, Object> getRoleList(Map<String, String> paraMap, SUser user) {
 		
+		//定义map
+		 Map<String, Object> jsonMap = new HashMap<String, Object>();
+		 
 		 String roleid = paraMap.containsKey("roleid") ? paraMap.get("roleid") : "";
 		 String rolename = paraMap.containsKey("rolename") ? paraMap.get("rolename") : "";
 		 String hql = " from SRole where recStat = '1' " ;
@@ -31,8 +36,12 @@ public class RoleServiceImpl extends BaseService implements IRoleService  {
 		 if(StringUtil.isNoNull(rolename)){
 			 hql += " and rolename like '" + rolename + "%'";
 		 }
-		List<SRole> roleList = hqlOperate.getByHql(hql, SRole.class);
-		return roleList;
+		List<SRole> roleList = hqlOperate.getPagedByHql(hql, SRole.class ,
+				(Integer.parseInt(paraMap.get("page")) -1)*Integer.parseInt(paraMap.get("rows")) , 
+				Integer.parseInt(paraMap.get("rows")));
+		jsonMap.put("total", hqlOperate.getByHql(hql).size());
+		jsonMap.put("rows", roleList);
+		return jsonMap;
 	}
 
 	public void editRole(SRole sRole, SUser user) {

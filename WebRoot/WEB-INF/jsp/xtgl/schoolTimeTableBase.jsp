@@ -27,13 +27,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			});
 			
 			jQuery('.right td.drop').droppable({
-				onDragEnter:function(){
+				onDragEnter:function(e,source){
+					//在被拖拽元素到放置区内的时候触发
 					jQuery(this).addClass('over');
 				},
-				onDragLeave:function(){
+				onDragLeave:function(e,source){
+					//在被拖拽元素离开放置区的时候触发
 					jQuery(this).removeClass('over');
+					alert('leave' + source.id);
 				},
 				onDrop:function(e,source){
+					//在被拖拽元素放入到放置区的时候触发
+					alert('drop here ' + source.id);
 					jQuery(this).removeClass('over');
 					if (jQuery(source).hasClass('assigned')){
 						jQuery(this).append(source);
@@ -58,37 +63,37 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	   <div class="left">
 	   		<table>
 				<tr>
-					<td><div class="item">语文</div></td>
+					<td><div id="c01" class="item">语文</div></td>
 				</tr>
 				<tr>
-					<td><div class="item">英语</div></td>
+					<td><div id="c02" class="item">英语</div></td>
 				</tr>
 				<tr>
-					<td><div class="item">数学</div></td>
+					<td><div id="c03" class="item">数学</div></td>
 				</tr>
 				<tr>
-					<td><div class="item">物理</div></td>
+					<td><div id="c04" class="item">物理</div></td>
 				</tr>
 				<tr>
-					<td><div class="item">化学</div></td>
+					<td><div id="c05" class="item">化学</div></td>
 				</tr>
 				<tr>
-					<td><div class="item">生物</div></td>
+					<td><div id="c06" class="item">生物</div></td>
 				</tr>
 				<tr>
-					<td><div class="item">地理</div></td>
+					<td><div id="c07" class="item">地理</div></td>
 				</tr>
 				<tr>
-					<td><div class="item">历史</div></td>
+					<td><div id="c08" class="item">历史</div></td>
 				</tr>
 				<tr>
-					<td><div class="item">音乐</div></td>
+					<td><div id="c09" class="item">音乐</div></td>
 				</tr>
 				<tr>
-					<td><div class="item">美术</div></td>
+					<td><div id="c10" class="item">美术</div></td>
 				</tr>
 				<tr>
-					<td><div class="item">体育</div></td>
+					<td><div id="c11" class="item">体育</div></td>
 				</tr>
 			</table>
 	   </div>
@@ -105,17 +110,28 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<td class="title">星期五</td>
 					<td class="title">星期六</td>
 				</tr>
-				<tr>
-					<td class="time">08:00</td>
-					<td class="drop"></td>
-					<td class="drop"></td>
-					<td class="drop"></td>
-					<td class="drop"></td>
-					<td class="drop"></td>
-					<td class="drop"></td>
-					<td class="drop"></td>
-				</tr>
-				<!-- other cells -->
+				<%
+					for(int i=1 ;i<8;i++){
+						
+				%>
+					<tr>
+						<td class="time">第<%=i %>节课</td>
+						<td id="d<%=i %>1" class="drop"></td>
+						<td id="d<%=i %>2" class="drop"></td>
+						<td id="d<%=i %>3" class="drop"></td>
+						<td id="d<%=i %>4" class="drop"></td>
+						<td id="d<%=i %>5" class="drop"></td>
+						<td id="d<%=i %>6" class="drop"></td>
+						<td id="d<%=i %>7" class="drop"></td>
+					</tr>
+					<tr>
+						<td colspan="8"></td>
+					</tr>
+				<%
+						
+					}
+				%>
+				
 			</table>
 		</div>
     </div>

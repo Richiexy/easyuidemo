@@ -41,10 +41,10 @@ public class SysLogAdvice {
      */  
 	@Before("aspectjMethod() && (args(request,..) || args(..,request))")
 	public void beforeAdvice(HttpServletRequest request){
-		log.info("-----beforeAdvice().invoke-----");  
-		log.info(" 此处意在执行核心业务逻辑前，做一些安全性的判断等等");  
-		log.info(" 可通过joinPoint来获取所需要的内容");  
-		log.info("-----End of beforeAdvice()------");  
+//		log.info("-----beforeAdvice().invoke-----");  
+//		log.info(" 此处意在执行核心业务逻辑前，做一些安全性的判断等等");  
+//		log.info(" 可通过joinPoint来获取所需要的内容");  
+//		log.info("-----End of beforeAdvice()------");  
 	}
 	
 	 /**  
@@ -54,10 +54,10 @@ public class SysLogAdvice {
      */  
     @After(value = "aspectjMethod()")    
     public void afterAdvice(JoinPoint joinPoint) {    
-    	log.info("-----afterAdvice().invoke-----");  
-    	log.info(" 此处意在执行核心业务逻辑之后，做一些日志记录操作等等");  
-    	log.info(" 可通过joinPoint来获取所需要的内容");  
-    	log.info("-----End of afterAdvice()------");  
+//    	log.info("-----afterAdvice().invoke-----");  
+//    	log.info(" 此处意在执行核心业务逻辑之后，做一些日志记录操作等等");  
+//    	log.info(" 可通过joinPoint来获取所需要的内容");  
+//    	log.info("-----End of afterAdvice()------");  
     } 
     
     /**  
@@ -71,8 +71,8 @@ public class SysLogAdvice {
      */   
     @Around(value = "aspectjMethod()")    
     public Object aroundAdvice(ProceedingJoinPoint pjp) throws Throwable {    
-        log.info("-----aroundAdvice().invoke-----");  
-        log.info(" 此处可以做类似于Before Advice的事情");  
+//        log.info("-----aroundAdvice().invoke-----");  
+//        log.info(" 此处可以做类似于Before Advice的事情");  
         //拦截的实体类
         Object target = pjp.proceed();  // 执行该方法
         log.info("------实体类名-------" + pjp.getTarget().getClass().getName());
@@ -88,8 +88,8 @@ public class SysLogAdvice {
  		// 获得被拦截的方法
 // 		Method method = target.getClass().getMethod(methodName, parameterTypes);
  		
- 		log.info(" 此处可以做类似于After Advice的事情");  
-        log.info("-----End of aroundAdvice()------"); 
+// 		log.info(" 此处可以做类似于After Advice的事情");  
+//        log.info("-----End of aroundAdvice()------"); 
  		return target;
     }    
     
@@ -100,11 +100,11 @@ public class SysLogAdvice {
      */   
     @AfterReturning(value = "aspectjMethod()", returning = "retVal")    
     public void afterReturningAdvice(JoinPoint joinPoint, String retVal) {    
-        System.out.println("-----afterReturningAdvice().invoke-----");  
+//        System.out.println("-----afterReturningAdvice().invoke-----");  
         System.out.println("Return Value: " + retVal);   
-        System.out.println(" 此处可以对返回值做进一步处理");  
-        System.out.println(" 可通过joinPoint来获取所需要的内容");  
-        System.out.println("-----End of afterReturningAdvice()------");  
+//        System.out.println(" 此处可以对返回值做进一步处理");  
+//        System.out.println(" 可通过joinPoint来获取所需要的内容");  
+//        System.out.println("-----End of afterReturningAdvice()------");  
     }   
 
     /** 
@@ -115,11 +115,11 @@ public class SysLogAdvice {
      */  
     @AfterThrowing(value = "aspectjMethod()", throwing = "ex")    
     public void afterThrowingAdvice(JoinPoint joinPoint, Exception ex) {    
-        System.out.println("-----afterThrowingAdvice().invoke-----");  
+//        System.out.println("-----afterThrowingAdvice().invoke-----");  
         System.out.println(" 错误信息："+ex.getMessage());  
-        System.out.println(" 此处意在执行核心业务逻辑出错时，捕获异常，并可做一些日志记录操作等等");  
-        System.out.println(" 可通过joinPoint来获取所需要的内容");  
-        System.out.println("-----End of afterThrowingAdvice()------");    
+//        System.out.println(" 此处意在执行核心业务逻辑出错时，捕获异常，并可做一些日志记录操作等等");  
+//        System.out.println(" 可通过joinPoint来获取所需要的内容");  
+//        System.out.println("-----End of afterThrowingAdvice()------");    
     } 
 
 }

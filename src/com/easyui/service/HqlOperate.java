@@ -147,7 +147,28 @@ public interface HqlOperate {
 	 */
 	public List getBySql(String sql,Object...args);
 	
+	/**
+	 * @Description: 分页查询
+	 * @author: 俞根海
+	 * @date: 2015-2-3 下午3:57:05
+	 * @param hql
+	 * @param start
+	 * @param top
+	 * @return
+	 */
 	public List getPagedByHql(final String hql,final int start,final int top);
+	
+	/**
+	 * @Description: 分页查询
+	 * @author: 俞根海
+	 * @date: 2015-2-3 下午3:57:18
+	 * @param hql
+	 * @param clazz
+	 * @param start
+	 * @param top
+	 * @return
+	 */
+	public <T> List<T> getPagedByHql(final String hql, Class<T> clazz ,final int start,final int top);
 	/**
 	 * 通过sql进行查询	此方式对带下划线的字段做了特殊处理( aa_bb -> aaBb )
 	 * @param <T>

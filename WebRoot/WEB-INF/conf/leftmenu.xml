@@ -7,6 +7,7 @@
 	    <lia href="sysController/admin/userMgr">用户管理</lia>
 	    <lia href="sysController/admin/privMgr">权限管理</lia>
 	    <lia href="sysController/admin/roleMgr">角色管理</lia>
+	    <lia href="sysController/admin/courseMgr">课程管理</lia>
 	</leftMenu>
 	
 	<leftMenu>

@@ -21,7 +21,7 @@ public interface IRoleService {
 	 * @param user
 	 * @return
 	 */
-	List<SRole> getRoleList(Map<String, String> paraMap, SUser user);
+	Map<String, Object> getRoleList(Map<String, String> paraMap, SUser user);
 
 	/**
 	 * @Description: 修改

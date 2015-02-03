@@ -114,7 +114,7 @@
 	<!-- 持久化管理 
 	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
   		<property name="dataSource" ref="dataSource"/>
-  		<property name="packagesToScan" value="com.xy.model"></property>
+  		<property name="packagesToScan" value="com.easyui.model"></property>
   		<property name="jpaVendorAdapter">
     		<bean  
                 class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">  

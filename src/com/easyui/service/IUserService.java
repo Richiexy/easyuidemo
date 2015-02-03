@@ -29,7 +29,7 @@ public interface IUserService {
 	 * @param user
 	 * @return
 	 */
-	public List<SUser> getUserList(Map<String, String> paraMap, SUser user);
+	public Map<String, Object> getUserList(Map<String, String> paraMap, SUser user);
 
 	/**
 	 * @Description: 批量删除

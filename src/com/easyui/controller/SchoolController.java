@@ -50,12 +50,9 @@ public class SchoolController {
 	public String getSchoolList(@RequestParam Map<String , String > paraMap,
 			@ModelAttribute("user") SUser user ,
 			ModelMap modelMap ){
-		 Map<String, Object> jsonMap = new HashMap<String, Object>();//定义map
-		 
-		List<TSchool> schoolList = schoolService.getSchoolList(paraMap , user);
 		
-		jsonMap.put("total", schoolList.size());
-		jsonMap.put("rows", schoolList);
+		 Map<String, Object> jsonMap = schoolService.getSchoolList(paraMap , user);
+		
 		log.info("获取学校列表……");
 		return JacksonUtil.serializeObjectToJson(jsonMap, true);
 	}

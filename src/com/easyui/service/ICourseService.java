@@ -4,42 +4,42 @@ import java.util.List;
 import java.util.Map;
 
 import com.easyui.model.SUser;
-import com.easyui.model.TTeacher;
+import com.easyui.model.TCourse;
 
-public interface ITeacherService {
+public interface ICourseService {
 
 	/**
-	 * @Description: 得到教师列表
+	 * @Description: 课程列表
 	 * @author: 俞根海
-	 * @date: 2015-2-2 下午6:27:19
+	 * @date: 2015-2-3 下午3:01:25
 	 * @param paraMap
 	 * @param user
 	 * @return
 	 */
-	Map<String, Object> getTeacherList(Map<String, String> paraMap, SUser user);
+	Map<String, Object> getCourseList(Map<String, String> paraMap, SUser user);
 
 	/**
 	 * @Description: 修改
 	 * @author: 俞根海
-	 * @date: 2015-2-2 下午6:27:28
-	 * @param teacher
+	 * @date: 2015-2-3 下午3:01:22
+	 * @param tCourse
 	 * @param user
 	 */
-	void editTeacher(TTeacher teacher, SUser user);
+	void editCourse(TCourse tCourse, SUser user);
 
 	/**
 	 * @Description: 新增
 	 * @author: 俞根海
-	 * @date: 2015-2-2 下午6:27:38
-	 * @param teacher
+	 * @date: 2015-2-3 下午3:01:18
+	 * @param tCourse
 	 * @param user
 	 */
-	void addTeacher(TTeacher teacher, SUser user);
+	void addCourse(TCourse tCourse, SUser user);
 
 	/**
 	 * @Description: 批量删除
 	 * @author: 俞根海
-	 * @date: 2015-2-2 下午6:27:46
+	 * @date: 2015-2-3 下午3:01:15
 	 * @param keyIds
 	 * @return
 	 */
