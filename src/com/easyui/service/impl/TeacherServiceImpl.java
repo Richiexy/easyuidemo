@@ -62,8 +62,8 @@ public class TeacherServiceImpl extends BaseService implements ITeacherService  
 
 		teacher.setModifyUser(user.getUserid());
 		teacher.setModifyTime(DateUtil.getCurrentDate("yyyy-MM-dd HH:mm:ss"));
-		SUser t_teacher = hqlOperate.getById(SUser.class, teacher.getKId());
-		BeanUtil.copyFields(teacher, SUser.class, t_teacher, SUser.class);
+		TTeacher t_teacher = hqlOperate.getById(TTeacher.class, teacher.getKId());
+		BeanUtil.copyFields(teacher, TTeacher.class, t_teacher, TTeacher.class);
 		hqlOperate.merge(t_teacher);
 	}
 

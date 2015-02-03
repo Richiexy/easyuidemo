@@ -1,5 +1,6 @@
 package com.easyui.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -14,28 +15,28 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.easyui.model.SUser;
-import com.easyui.model.TTeacher;
-import com.easyui.service.ITeacherService;
+import com.easyui.model.TStudent;
+import com.easyui.service.IStudentService;
 import com.easyui.util.JacksonUtil;
 import com.easyui.util.StringUtil;
 
 /**
- * @Description: 教师管理
+ * @Description: 学生管理
  * @author: 俞根海
  * @date： 2015-1-28 下午2:04:39
  */
 @Controller
-@RequestMapping("/teacherController")
+@RequestMapping("/studentController")
 @SessionAttributes("user")
-public class TeacherController {
+public class StudentController {
 	
-	private Logger log = LoggerFactory.getLogger(TeacherController.class);
+	private Logger log = LoggerFactory.getLogger(StudentController.class);
 
 	@Autowired(required = false)
-	private ITeacherService teacherService;
+	private IStudentService studentService;
 	
 	/**
-	 * @Description: 获取教师列表
+	 * @Description: 获取学生列表
 	 * @author: 俞根海
 	 * @date: 2015-1-29 下午1:57:19
 	 * @param paraMap
@@ -43,13 +44,13 @@ public class TeacherController {
 	 * @param modelMap
 	 * @return
 	 */
-	@RequestMapping("/getTeacherList")
+	@RequestMapping("/getStudentList")
 	@ResponseBody
-	public String getTeacherList(@RequestParam Map<String , String > paraMap,
+	public String getStudentList(@RequestParam Map<String , String > paraMap,
 			@ModelAttribute("user") SUser user ,
 			ModelMap modelMap ){
 		
-		 Map<String, Object> jsonMap = teacherService.getTeacherList(paraMap , user);
+		 Map<String, Object> jsonMap = studentService.getStudentList(paraMap , user);
 		
 		log.info("获取用户列表……");
 		return JacksonUtil.serializeObjectToJson(jsonMap, true);
@@ -63,13 +64,13 @@ public class TeacherController {
 	 * @param user
 	 * @return
 	 */
-	@RequestMapping("/saveTeacher")
-	public TTeacher saveTeacher(TTeacher teacher ,
+	@RequestMapping("/saveStudent")
+	public TStudent saveStudent(TStudent teacher ,
 			@ModelAttribute("user") SUser user){
 		if(StringUtil.isNoNull(teacher.getKId())){
-			teacherService.editTeacher(teacher , user);
+			studentService.editStudent(teacher , user);
 		}else{
-			teacherService.addTeacher(teacher , user);
+			studentService.addStudent(teacher , user);
 		}
 		
 		return teacher;
@@ -88,6 +89,24 @@ public class TeacherController {
 	public boolean batchDel(String keyIds,
 			@ModelAttribute("user") SUser user){
 			
-		return teacherService.batchDel(keyIds);
+		return studentService.batchDel(keyIds);
+	}
+	
+	/**
+	 * @Description: 所属班级下拉列表
+	 * @author: 俞根海
+	 * @date: 2015-2-3 下午10:36:02
+	 * @param paraMap
+	 * @param user
+	 * @return
+	 */
+	@RequestMapping("/getClassComboData")
+	@ResponseBody
+	public String getClassComboData(@RequestParam Map<String , String > paraMap ,
+			@ModelAttribute("user") SUser user ){
+		
+		List<Map<String, String>> mapList = studentService.getClassComboData(paraMap , user);
+		
+		return JacksonUtil.serializeObjectToJson(mapList, true);
 	}
 }

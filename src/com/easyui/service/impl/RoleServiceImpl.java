@@ -7,10 +7,8 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.easyui.model.SPriv;
 import com.easyui.model.SRole;
 import com.easyui.model.SUser;
-import com.easyui.model.TCourse;
 import com.easyui.service.BaseService;
 import com.easyui.service.IRoleService;
 import com.easyui.util.BeanUtil;
@@ -48,8 +46,8 @@ public class RoleServiceImpl extends BaseService implements IRoleService  {
 
 		sRole.setModifyUser(user.getUserid());
 		sRole.setModifyTime(DateUtil.getCurrentDate("yyyy-MM-dd HH:mm:ss"));
-		SPriv t_role = hqlOperate.getById(SPriv.class, sRole.getKId());
-		BeanUtil.copyFields(sRole, SPriv.class, t_role, SPriv.class);
+		SRole t_role = hqlOperate.getById(SRole.class, sRole.getKId());
+		BeanUtil.copyFields(sRole, SRole.class, t_role, SRole.class);
 		hqlOperate.merge(t_role);
 	}
 

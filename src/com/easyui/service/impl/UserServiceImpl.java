@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.easyui.model.SUser;
-import com.easyui.model.TCourse;
 import com.easyui.service.BaseService;
 import com.easyui.service.IUserService;
 import com.easyui.util.BeanUtil;

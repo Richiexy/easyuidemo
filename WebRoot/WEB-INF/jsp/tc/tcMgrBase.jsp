@@ -20,9 +20,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		var path='${pageContext.request.contextPath}';
 		
 		function searchGridByParam(){
-			jQuery("#dg_003").datagrid('load',{
-				'privid' : jQuery("input[name='privid']").val(),
-				'privname' : jQuery("input[name='privname']").val()
+			jQuery("#dg_006").datagrid('load',{
+				'tcCode' : jQuery("input[name='tcCode']").val(),
+				'tcName' : jQuery("input[name='tcName']").val()
 			})
 			
 		}
@@ -34,14 +34,20 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			
 			//定义方法
 			//新增
-			function addPriv(){
+			function addTeacher(){
 
-				jQuery("#priv_win").form('load' ,{
+				jQuery("#tcSexId").combobox({    
+				    url: basePath + "/utilController/getDicInfo?fieldName=Sex&rondom="+ getRandom()  ,
+				    valueField:'value',    
+				    textField:'text'   
+				});
+				
+				jQuery("#teacher_win").form('load' ,{
 			    	recStat: "1"//默认值
 			    })
 			    
-				jQuery("#priv_win").window({
-					title: "新增权限",
+				jQuery("#teacher_win").window({
+					title: "新增教师",
 					collapsible:false,
 					minimizable:false,
 				    maximizable:false,
@@ -51,19 +57,27 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				});
 			}
 			//修改
-			function editPriv(){
-				var row = jQuery("#dg_003").datagrid('getSelected');
+			function editTeacher(){
+				var row = jQuery("#dg_006").datagrid('getSelected');
 				if (row){
 					
-				    jQuery("#priv_win").form('load' ,{
-				    	privid: row.privid,
-				    	privname: row.privname,
+					jQuery("#tcSexId").combobox({    
+					    url: basePath + "/utilController/getDicInfo?fieldName='Sex'"+'?rondom='+ getRandom()  ,
+					    valueField:'value',    
+					    textField:'text'   
+					});
+					
+				    jQuery("#teacher_win").form('load' ,{
+				    	tcCode: row.tcCode,
+				    	tcName: row.tcName,
+				    	tcSex: row.tcSex,
+						tcAge: row.tcAge,
 				    	recStat: "1",//默认值
 				    	KId: row.kid
 				    })
 				    
-				    jQuery("#priv_win").window({
-						title: "修改权限",
+				    jQuery("#teacher_win").window({
+						title: "修改教师",
 						collapsible:false,
 						minimizable:false,
 					    maximizable:false,
@@ -79,7 +93,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				
 			}
 			//批量删除
-			function delPriv(gridId , formAction){
+			function delTeacher(gridId , formAction){
 				var rows = jQuery("#" + gridId).datagrid('getSelections');
 				if (rows.length > 0){
 					var ids=[];
@@ -103,8 +117,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				}
 			}
 			
-			jQuery("#dg_003").datagrid({
-				url: basePath + 'privController/getPrivList',
+			jQuery("#dg_006").datagrid({
+				url: basePath + 'teacherController/getTeacherList',
 				loadMsg: "正在加载数据，请稍等……",
 	            pagination:true,  
 	            rownumbers:true,  
@@ -119,19 +133,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	            	text:'新增',
 	        		iconCls: 'icon-add',
 	        		handler: function(){
-	        			addPriv();
+	        			addTeacher();
 	        		}
 	        	},'-',{
 	        		text:'修改',
 	        		iconCls: 'icon-edit',
 	        		handler: function(){
-	        			editPriv();
+	        			editTeacher();
 	        		}
 	        	},'-',{
 	        		text:'删除',
 	        		iconCls: 'icon-remove',
 	        		handler: function(){
-	        			delPriv("dg_003" , "privController");
+	        			delTeacher("dg_006" , "teacherController");
 	        		}
 	        	}]
 			});
@@ -145,13 +159,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <div id="layoutDivId" class="easyui-layout" style="width:100%;height:100%;padding:10px;"   >
     	<%-- 查询条件区域 --%>
     	<div data-options="region:'north',title:'查询条件',split:true" style="height:18%;">
-    	 	<form id="privSearchForm"> 
+    	 	<form id="teacherSearchForm"> 
     			<table> 
 			    	<tr>
-			    		<td>权限编号：</td>
-			    		<td><input class="easyui-validatebox" type="text" name="privid" data-options="required:false"></input></td>
-			    		<td>权限名称：</td>
-			    		<td><input class="easyui-validatebox" type="text" name="privname" data-options="required:false"></input></td>
+			    		<td>教师编号：</td>
+			    		<td><input class="easyui-validatebox" type="text" name="tcCode" data-options="required:false"></input></td>
+			    		<td>教师名称：</td>
+			    		<td><input class="easyui-validatebox" type="text" name="tcName" data-options="required:false"></input></td>
 			    		<td>
 			    			<a href="javascript:void(0)" class="easyui-linkbutton" 
 			    				data-options="iconCls:'icon-search'"
@@ -160,7 +174,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			    		<td>
 			    			<a href="javascript:void(0)" class="easyui-linkbutton" 
 			    				data-options="iconCls:'icon-reset'"
-			    				onclick="javascript:resetForm('privSearchForm')" >重置</a>
+			    				onclick="javascript:resetForm('teacherSearchForm')" >重置</a>
 			    		</td>
 			    	</tr>
 				</table> 
@@ -168,13 +182,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     	</div>   
     	<%-- 列表区域 --%>
 		<div data-options="region:'center',title:'查询列表'" style="padding:5px;background:#eee;">
-			<table id="dg_003" >   
+			<table id="dg_006" >   
 			    <thead>   
 			        <tr>   
 			        	<%-- 复选框 --%>
 			            <th data-options="field:'ck',checkbox:true"> </th>   
-			            <th data-options="field:'privid'">权限编号</th>   
-			            <th data-options="field:'privname'">权限名称</th>   
+			            <th data-options="field:'tcCode'">教师编号</th>   
+			            <th data-options="field:'tcName'">教师名称</th>   
+			            <th data-options="field:'tcAge'">年龄</th>   
+			            <th data-options="field:'tcSex'">性别</th>   
 			            <th data-options="field:'kid',hidden:true">主键</th>   
 			        </tr>   
 			    </thead>   
@@ -184,26 +200,34 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<%-- 列表结束 --%>
     </div>
     
-    <div id="priv_win" >
+    <div id="teacher_win" >
     
-    	 <form id="privForm" method="post"> 
+    	 <form id="teacherForm" method="post"> 
     	 	<input type="hidden" name="KId" />
     	 	<input type="hidden" name="recStat"/>
 		     	<table> 		  
 		     		<tr>
-		    			 <td nowrap>权限编号：</td>
-		  			     <td><input class="easyui-validatebox" type="text" name="privid" data-options="required:false"></input></td>
+		    			 <td nowrap>教师编号：</td>
+		  			     <td><input class="easyui-validatebox" type="text" name="tcCode" data-options="required:false"></input></td>
 		  			</tr>
 		  			<tr>
-		    			 <td nowrap>权限名称：</td>
-		  			     <td><input class="easyui-validatebox" type="text" name="privname" data-options="required:false"></input></td>
+		    			 <td nowrap>教师名称：</td>
+		  			     <td><input class="easyui-validatebox" type="text" name="tcName" data-options="required:false"></input></td>
+		  			</tr>
+		  			<tr>
+		    			 <td nowrap>年龄：</td>
+		  			     <td><input class="easyui-numberbox" type="text" name="tcAge"  value="18" data-options="min:18,max:100,precision:0"></input></td>
+		  			</tr>
+		  			<tr>
+		    			 <td nowrap>性别：</td>
+		  			     <td><input id="tcSexId" name="tcSex" ></input></td>
 		  			</tr>
 		       </table>                                                                                                                                                
 		  </form>                                                                                                                                                   
 
 	 	<div style="text-align:center;padding:5px"> 
-	    	<a href="javascript:void(0)" class="easyui-linkbutton" onclick="submitFormData('priv_win','dg_003','privForm','privController/savePriv')">提 交</a> 
-	    	<a href="javascript:void(0)" class="easyui-linkbutton" onclick="resetForm('privForm')">重 置</a> 
+	    	<a href="javascript:void(0)" class="easyui-linkbutton" onclick="submitFormData('teacher_win','dg_006','teacherForm','teacherController/saveTeacher')">提 交</a> 
+	    	<a href="javascript:void(0)" class="easyui-linkbutton" onclick="resetForm('teacherForm')">重 置</a> 
 	    </div> 	
       
     </div>
